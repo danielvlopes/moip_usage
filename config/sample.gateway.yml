@@ -1,0 +1,11 @@
+# you can find your token and api in https://desenvolvedor.moip.com.br/sandbox/AdmAPI.do?method=keys
+test:
+  uri: https://desenvolvedor.moip.com.br/sandbox/ws/alpha  
+  token: YOUR TOKEN
+  key: YOUR KEY
+
+development:
+  uri: https://desenvolvedor.moip.com.br/sandbox/ws/alpha  
+  token: YOUR TOKEN
+  key: YOUR KEY
+
