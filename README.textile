@@ -1,0 +1,20 @@
+h1. MOIP USAGE
+
+Simple app for test the usage of "MOIP":http://moip.com.br/ (Paypal like gateway) service through his REST API.
+
+h2. Running
+
+To test this app you need signup in MOIP website and ask for a sandbox account. After that rename sample.gateway.yml to gateway.yml and add you *token* and *key*.
+
+Run the server and go to /charge url, it should redirect you to MOIP to proceed with payment.
+
+h2. Dependencies
+
+* "CRACK":http://railstips.org/2009/4/1/crack-the-easiest-way-to-parse-xml-and-json
+* "REST-CLIENT":http://rest-client.heroku.com/rdoc/
+
+h2. Just for test
+
+This project is just for tests with MOIP API and see what is possible, feel free to change, extend and fork it (please).
+
+Thanks.
