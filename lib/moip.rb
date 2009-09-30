@@ -1,6 +1,9 @@
 class Moip
-  RestClient.log = File.join(RAILS_ROOT, 'log', 'rest.log')
+  include HTTParty
   MOIP = YAML.load_file(File.join(RAILS_ROOT, 'config', 'gateway.yml'))[RAILS_ENV]
+
+  base_uri MOIP["uri"]
+  basic_auth MOIP["token"], MOIP["key"]
 
   def self.authorize(value,razao)
     builder = Builder::XmlMarkup.new
@@ -11,10 +14,9 @@ class Moip
         i.IdProprio rand(5000)
       end
     end
-
-    moip = RestClient::Resource.new(MOIP["uri"], MOIP["token"], MOIP["key"])
-    response = moip['EnviarInstrucao/Unica'].post xml, :content_type => 'text/xml'
-    Crack::XML.parse(response)["ns1:EnviarInstrucaoUnicaResponse"]
+    
+    response = post('/EnviarInstrucao/Unica', :body => xml)
+    response["ns1:EnviarInstrucaoUnicaResponse"]
   end
-  
+
 end
