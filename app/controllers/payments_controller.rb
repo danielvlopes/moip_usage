@@ -1,14 +1,8 @@
 class PaymentsController < ApplicationController
-  
+
   def charge
-    response = Moip.authorize("2","Teste")
-    redirect_to moip_url(response["Resposta"]["Token"])
-  end
-
-private
-
-  def moip_url(token)
-    "https://desenvolvedor.moip.com.br/sandbox/Instrucao.do?token=#{token}"
+    response = Moip.authorize(:reason=>"Teste",:id=>"12", :value=>1)
+    redirect_to Moip.charge_url(response)
   end
 
 end
