@@ -27,7 +27,8 @@ class Moip
     end
 
     response = post('/EnviarInstrucao/Unica', :body => xml)["ns1:EnviarInstrucaoUnicaResponse"]
-    response["Resposta"]["Status"] == "Falha" ? raise(StandardError, response["Resposta"]["Erro"]) : response
+    raise(StandardError, "Webservice can't be reached") if response.nil?
+    (response["Resposta"]["Status"] == "Falha") ? raise(StandardError, response["Resposta"]["Erro"]) : response
   end
 
   def self.charge_url(response)
