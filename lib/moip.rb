@@ -1,42 +1,40 @@
 class Moip
   include HTTParty
-  CONFIG      = YAML.load_file(File.join(RAILS_ROOT, 'config', 'gateway.yml'))[RAILS_ENV]
+  CONFIG = YAML.load_file(File.join(RAILS_ROOT, 'config', 'gateway.yml'))[RAILS_ENV]
 
-  base_uri CONFIG["uri"]
+  base_uri "#{CONFIG["uri"]}/ws/alpha"
   basic_auth CONFIG["token"], CONFIG["key"]
 
-  cattr_accessor :test_url
-  self.test_url = 'https://desenvolvedor.moip.com.br/sandbox'
+  class << self
+    def authorize(attributes = {})
+      xml = mount_request(attributes)
+      response = post('/EnviarInstrucao/Unica', :body => xml)
+      raise(StandardError, "Webservice can't be reached") if response.nil?
+      response = response["ns1:EnviarInstrucaoUnicaResponse"]
+      raise(StandardError, response["Resposta"]["Erro"]) if response["Resposta"]["Status"] == "Falha"
+      response
+    end
 
-  cattr_accessor :production_url
-  self.production_url = 'https://moip.com.br'
+    def charge_url(response)
+      "#{CONFIG["uri"]}/Instrucao.do?token=#{response["Resposta"]["Token"]}"
+    end
 
-  def self.authorize(attributes = {})
-    reason,id,value = attributes[:reason], attributes[:id], attributes[:value]
-
-    xml = Builder::XmlMarkup.new.EnviarInstrucao do |e|
-      e.InstrucaoUnica do |i|
-        i.Razao reason
-        i.IdProprio id
-        i.Valores {|v| v.Valor(value, :moeda=>"BRL")}
-        i.FormasPagamento do |p|
-          p.FormaPagamento "BoletoBancario"
-          p.FormaPagamento "CartaoCredito"
+  protected
+    def mount_request(attributes)
+      reason, id, value = attributes[:reason], attributes[:id], attributes[:value]
+      xml = Builder::XmlMarkup.new.EnviarInstrucao do |e|
+        e.InstrucaoUnica do |i|
+          i.Razao reason
+          i.IdProprio id
+          i.Valores {|v| v.Valor(value, :moeda=>"BRL")}
+          i.FormasPagamento { |p|
+            p.FormaPagamento "BoletoBancario"
+            p.FormaPagamento "CartaoCredito"
+          }
         end
       end
     end
 
-    response = post('/EnviarInstrucao/Unica', :body => xml)["ns1:EnviarInstrucaoUnicaResponse"]
-    raise(StandardError, "Webservice can't be reached") if response.nil?
-    (response["Resposta"]["Status"] == "Falha") ? raise(StandardError, response["Resposta"]["Erro"]) : response
-  end
-
-  def self.charge_url(response)
-    if [RAILS_ENV] != "production"
-      "#{self.test_url}/Instrucao.do?token=#{response["Resposta"]["Token"]}"
-    else
-      "#{self.production_url}/Instrucao.do?token=#{response["Resposta"]["Token"]}"
-    end
   end
 
 end
