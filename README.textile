@@ -10,8 +10,7 @@ Run the server and go to /charge url, it should redirect you to MOIP to proceed 
 
 h2. Dependencies
 
-* "CRACK":http://railstips.org/2009/4/1/crack-the-easiest-way-to-parse-xml-and-json
-* "REST-CLIENT":http://rest-client.heroku.com/rdoc/
+* "HTTPARTY":http://github.com/jnunemaker/httparty
 
 h2. Just for test
 
