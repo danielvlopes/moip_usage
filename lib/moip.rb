@@ -15,8 +15,8 @@ class Moip
       response
     end
 
-    def charge_url(response)
-      "#{CONFIG["uri"]}/Instrucao.do?token=#{response["Resposta"]["Token"]}"
+    def charge_url(token)
+      "#{CONFIG["uri"]}/Instrucao.do?token=#{token}"
     end
 
   protected

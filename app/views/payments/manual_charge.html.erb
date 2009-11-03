@@ -1,3 +1,3 @@
 <p>Você possui uma conta pendente:</p>
 
-<p><%= link_to "Pagar", Moip.charge_url(@response) %></p>
+<p><%= link_to "Pagar", Moip.charge_url(@response["Token"]) %></p>
