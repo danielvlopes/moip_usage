@@ -16,3 +16,5 @@ vendor/**/**/doc/*
 ssl/*
 Icon?
 config/gateway.yml
+config/deploy.rb
+Capfile
