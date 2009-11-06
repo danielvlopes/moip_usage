@@ -16,13 +16,13 @@ describe Moip do
       end
 
       it "should have status Sucesso" do
-        @response["Resposta"]["Status"].should == "Sucesso"
+        @response["Status"].should == "Sucesso"
       end
       it "should have a Token" do
-        @response["Resposta"]["Token"].should be_present
+        @response["Token"].should be_present
       end
       it "should have an ID" do
-        @response["Resposta"]["ID"].should be_present
+        @response["ID"].should be_present
       end
     end
 
@@ -43,6 +43,27 @@ describe Moip do
     it "should return a valid url based on response token" do
       response = response_content
       Moip.charge_url(response["Token"]).should == "https://desenvolvedor.moip.com.br/sandbox/Instrucao.do?token=#{response["Token"]}"
+    end
+  end
+
+  describe "when receive notification" do
+    before(:each) do
+      @params = {"id_transacao"=>"", "status_pagamento"=>"4", "email_consumidor"=>"joao@gmail.com", "valor"=>"555", "forma_pagamento"=>"73", "tipo_pagamento"=>"BoletoBancario", "cod_moip"=>"2331"}
+    end
+
+    it "should return a hash with params" do
+      response = {:transaction_id=>"Pag706", :amount=>5.55, :status=>"completed", :code=>"2331",:payment_type=>"BoletoBancario", :email=>"joao@gmail.com" }
+      Moip.should_receive(:notication).with(@params).and_return(response)
+      Moip.notication(@params)
+    end
+
+    it "should return valid status based on status code" do
+      Moip::STATUS[1].should == "authorized"
+      Moip::STATUS[2].should == "started"
+      Moip::STATUS[3].should == "printed"
+      Moip::STATUS[4].should == "completed"
+      Moip::STATUS[5].should == "canceled"
+      Moip::STATUS[6].should == "analysing"
     end
   end
 
