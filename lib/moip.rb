@@ -19,7 +19,7 @@ class Moip
     def charge_url(token)
       "#{CONFIG["uri"]}/Instrucao.do?token=#{token}"
     end
-    
+
     def notification(params)
       notification = {}
       notification[:transaction_id] = params["id_transacao"]
@@ -30,7 +30,7 @@ class Moip
       notification[:email]          = params["email_consumidor"]
       notification
     end
-    
+
   protected
     def mount_request(attributes)
       reason, id, value = attributes[:reason], attributes[:id], attributes[:value]
@@ -38,7 +38,7 @@ class Moip
         e.InstrucaoUnica do |i|
           i.Razao reason
           i.IdProprio id
-          i.UrlRetorno "http://www.google.com/"
+          i.URLRetorno "http://www.google.com/"
           i.Valores {|v| v.Valor(value, :moeda=>"BRL")}
           i.FormasPagamento { |p|
             p.FormaPagamento "BoletoBancario"
@@ -47,7 +47,6 @@ class Moip
         end
       end
     end
-
   end
 
 end

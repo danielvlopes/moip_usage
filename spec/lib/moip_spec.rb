@@ -53,8 +53,7 @@ describe Moip do
 
     it "should return a hash with params" do
       response = {:transaction_id=>"Pag706", :amount=>5.55, :status=>"completed", :code=>"2331",:payment_type=>"BoletoBancario", :email=>"joao@gmail.com" }
-      Moip.should_receive(:notication).with(@params).and_return(response)
-      Moip.notication(@params)
+      Moip.notification(@params).should == response
     end
 
     it "should return valid status based on status code" do
