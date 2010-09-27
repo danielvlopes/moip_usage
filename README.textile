@@ -8,10 +8,6 @@ To test this app you need signup in MOIP website and ask for a sandbox account. 
 
 Run the server and go to /charge url, it should redirect you to MOIP to proceed with payment.
 
-h2. Dependencies
-
-* "HTTPARTY":http://github.com/jnunemaker/httparty
-
 h2. Just for test
 
 This project is just for tests with MOIP API and see what is possible, feel free to change, extend and fork it (please).
