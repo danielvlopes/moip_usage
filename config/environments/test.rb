@@ -1,4 +1,7 @@
-config.gem "rspec", :version => '1.2.9'
+config.gem "rspec", :lib => false
+config.gem "rspec-rails", :lib => false
+config.gem "mocha"
+config.gem "ephemeral_response"
 
 # Settings specified here will take precedence over those in config/environment.rb
 

@@ -1,0 +1,6 @@
+<ns1:EnviarInstrucaoUnicaResponse xmlns:ns1="http://www.moip.com.br/ws/alpha/">
+  <Resposta>
+    <Status>Falha</Status>
+    <Erro>Some error message</Erro>
+  </Resposta>
+</ns1:EnviarInstrucaoUnicaResponse>
